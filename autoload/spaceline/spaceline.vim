@@ -260,7 +260,7 @@ function! spaceline#spaceline#VimacsLineFileformat()
   if exists('*WebDevIconsGetFileTypeSymbol')
     return winwidth(0) > 70 ? (WebDevIconsGetFileFormatSymbol().' '.&fileformat . ' ' ) : ''
   else
-    return winwidth(0) > 70 ? &fileformat . ' ' ) : ''
+    return winwidth(0) > 70 ? ''.&fileformat . ' ' ) : ''
   endif
 endfunction
 
