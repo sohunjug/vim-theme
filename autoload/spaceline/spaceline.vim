@@ -206,7 +206,11 @@ function! VimacslineCocFixes() abort
 endfunction
 
 function! VimacsLineFname()
-  let icon = (strlen(&filetype) ? ' ' . WebDevIconsGetFileTypeSymbol() : 'no ft')
+  if exists('*WebDevIconsGetFileTypeSymbol')
+    let icon = (strlen(&filetype) ? ' ' . WebDevIconsGetFileTypeSymbol() : 'no ft')
+  else
+    let icon = (strlen(&filetype) ? ' ' : 'no ft')
+  endif
   if s:symbol == 1
       let icon= ''
   endif
@@ -233,23 +237,31 @@ function! spaceline#spaceline#FileEncoding()
 endfunction
 
 function! spaceline#spaceline#VimacsLineFiletype()
-    if &filetype==? 'defx'
-        return ""
-    endif
-    if s:symbol == 1
-  return winwidth(0) > 70 ? (strlen(&filetype) ? &filetype . ' ' : 'no ft') : ''
-    endif
-  return winwidth(0) > 70 ? (strlen(&filetype) ? &filetype . ' ' . WebDevIconsGetFileTypeSymbol() : 'no ft') : ''
+  if &filetype==? 'defx'
+    return ""
+  endif
+  if s:symbol == 1
+    return winwidth(0) > 70 ? (strlen(&filetype) ? &filetype . ' ' : 'no ft') : ''
+  endif
+  if exists('*WebDevIconsGetFileTypeSymbol')
+    return winwidth(0) > 70 ? (strlen(&filetype) ? &filetype . ' ' . WebDevIconsGetFileTypeSymbol() : 'no ft') : ''
+  else
+    return winwidth(0) > 70 ? (strlen(&filetype) ? &filetype . ' ' : 'no ft') : ''
+  endif
 endfunction
 
 function! spaceline#spaceline#VimacsLineFileformat()
-    if &filetype==? 'defx'
-        return ""
-    endif
-    if s:symbol == 1
-  return winwidth(0) > 70 ? (' '.&fileformat . ' ' ) : ''
-    endif
-  return winwidth(0) > 70 ? (WebDevIconsGetFileFormatSymbol().' '.&fileformat . ' ' ) : ''
+  if &filetype==? 'defx'
+    return ""
+  endif
+  if s:symbol == 1
+    return winwidth(0) > 70 ? (' '.&fileformat . ' ' ) : ''
+  endif
+  if exists('*WebDevIconsGetFileTypeSymbol')
+    return winwidth(0) > 70 ? (WebDevIconsGetFileFormatSymbol().' '.&fileformat . ' ' ) : ''
+  else
+    return winwidth(0) > 70 ? &fileformat . ' ' ) : ''
+  endif
 endfunction
 
 function! spaceline#spaceline#HeartErrorSymbol()
